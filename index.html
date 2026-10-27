@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Image Gallery</title>
+<style>
+  body { font-family: Arial; text-align: center; }
+
+  /* Grid */
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+    width: 80%;
+    margin: auto;
+  }
+
+  .grid div { overflow: hidden; }
+
+  .grid img {
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+    transition: transform 0.4s;
+  }
+
+  /* Hover effect: zoom + shadow */
+  .grid img:hover {
+    transform: scale(1.2);
+    box-shadow: 0 0 15px gray;
+  }
+
+  /* Slideshow */
+  #slideshow { margin-top: 30px; }
+  #slideshow img { width: 450px; height: 300px; object-fit: cover; }
+  button { padding: 8px 15px; margin: 5px; }
+</style>
+</head>
+<body>
+
+<h1>Image Gallery</h1>
+
+<!-- Grid of images -->
+<div class="grid">
+  <div><img src="https://picsum.photos/id/1015/400/300" onclick="show(0)"></div>
+  <div><img src="https://picsum.photos/id/1018/400/300" onclick="show(1)"></div>
+  <div><img src="https://picsum.photos/id/1025/400/300" onclick="show(2)"></div>
+  <div><img src="https://picsum.photos/id/1035/400/300" onclick="show(3)"></div>
+</div>
+
+<!-- Slideshow -->
+<div id="slideshow">
+  <h2>Slideshow</h2>
+  <img id="big" src="https://picsum.photos/id/1015/900/600"><br>
+  <button onclick="prev()">Previous</button>
+  <button onclick="next()">Next</button>
+  <button onclick="toggleAuto()" id="autoBtn">Auto-play: OFF</button>
+</div>
+
+<script>
+  var images = [
+    "https://picsum.photos/id/1015/900/600",
+    "https://picsum.photos/id/1018/900/600",
+    "https://picsum.photos/id/1025/900/600",
+    "https://picsum.photos/id/1035/900/600"
+  ];
+
+  var index = 0;
+  var timer = null;
+
+  function show(i) {
+    index = i;
+    document.getElementById("big").src = images[index];
+  }
+
+  function next() {
+    index = (index + 1) % images.length;
+    show(index);
+  }
+
+  function prev() {
+    index = (index - 1 + images.length) % images.length;
+    show(index);
+  }
+
+  function toggleAuto() {
+    if (timer == null) {
+      timer = setInterval(next, 2000);
+      document.getElementById("autoBtn").innerText = "Auto-play: ON";
+    } else {
+      clearInterval(timer);
+      timer = null;
+      document.getElementById("autoBtn").innerText = "Auto-play: OFF";
+    }
+  }
+</script>
+
+</body>
+</html>
